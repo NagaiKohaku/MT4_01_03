@@ -18,12 +18,12 @@ struct Quaternion {
 };
 
 //積法
-Quaternion Multiply(Quaternion lns, Quaternion rhs) {
+Quaternion Multiply(Quaternion lhs, Quaternion rhs) {
 	Quaternion result;
 
-	result.w = lns.w * rhs.w - Dot(lns.v, rhs.v);
+	result.w = lhs.w * rhs.w - Dot(lhs.v, rhs.v);
 
-	result.v = Cross(lns.v, rhs.v) + lns.v * rhs.w + rhs.v * lns.w;
+	result.v = Cross(lhs.v, rhs.v) + lhs.v * rhs.w + rhs.v * lhs.w;
 
 	return result;
 }
@@ -118,17 +118,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	Quaternion q1 = { {2.0f,3.0f,4.0f},1.0f };
-	Quaternion q2 = { {1.0f,3.0f,5.0f},2.0f };
-
-	Quaternion identity = IdentityQuaternion();
-	Quaternion conj = Conjugate(q1);
-	Quaternion inv = Inverse(q1);
-	Quaternion normal = Normalize(q1);
-	Quaternion mul1 = Multiply(q1, q2);
-	Quaternion mul2 = Multiply(q2, q1);
-	float norm = Norm(q1);
-
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
 		// フレームの開始
@@ -142,6 +131,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
+		Quaternion q1 = { {2.0f,3.0f,4.0f},1.0f };
+		Quaternion q2 = { {1.0f,3.0f,5.0f},2.0f };
+
+		Quaternion identity = IdentityQuaternion();
+		Quaternion conj = Conjugate(q1);
+		Quaternion inv = Inverse(q1);
+		Quaternion normal = Normalize(q1);
+		Quaternion mul1 = Multiply(q1, q2);
+		Quaternion mul2 = Multiply(q2, q1);
+		float norm = Norm(q1);
+
+		///
+		/// ↑更新処理ここまで
+		///
+
+		///
+		/// ↓描画処理ここから
+		///
+
 		QuaternionScreenPrintf(0, kRowHeight * 0, identity, "Identity");
 		QuaternionScreenPrintf(0, kRowHeight * 1, conj, "Conjugate");
 		QuaternionScreenPrintf(0, kRowHeight * 2, inv, "Inverse");
@@ -152,14 +160,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::ScreenPrintf(0, kRowHeight * 6, "%.2f", norm);
 		Novice::ScreenPrintf(kColumnWidth * 5 - kRowHeight, kRowHeight * 6, "%s", ":");
 		Novice::ScreenPrintf(kColumnWidth * 5, kRowHeight * 6, "%s", "Norm");
-
-		///
-		/// ↑更新処理ここまで
-		///
-
-		///
-		/// ↓描画処理ここから
-		///
 
 		///
 		/// ↑描画処理ここまで
